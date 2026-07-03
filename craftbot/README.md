@@ -57,7 +57,7 @@ Boas-vindas automáticas e moderação básica (remoção de spam/links com avis
 
 ## Banco de dados
 
-Usa SQLite local (`better-sqlite3`), com uma linha por servidor (`guildId`) em cada tabela — garantindo isolamento total entre servidores. O arquivo fica em `data/craftbot.sqlite` (ignorado pelo Git).
+Usa SQLite local via o módulo nativo `node:sqlite` (Node 22+), sem dependências nativas para compilar. Uma linha por servidor (`guildId`) em cada tabela garante isolamento total entre servidores. O arquivo fica em `data/craftbot.sqlite` (ignorado pelo Git).
 
 ## Estrutura
 

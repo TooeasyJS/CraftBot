@@ -1,12 +1,10 @@
-FROM node:20-slim
+FROM node:22-slim
 
 WORKDIR /app
 
-# Dependências nativas necessárias para better-sqlite3
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 make g++ \
-    && rm -rf /var/lib/apt/lists/*
-
+# @napi-rs/canvas baixa um binário pré-compilado; nenhuma dependência
+# nativa de build é necessária (o storage usa o módulo nativo
+# node:sqlite, sem compilação).
 COPY package.json ./
 RUN npm install --omit=dev
 
