@@ -1,0 +1,2 @@
+- [Node.js Discord bot on Replit: use node:sqlite, not better-sqlite3](node-sqlite-for-bots.md) — avoids native compilation failures in this environment.
+- [Standalone non-artifact packages in this monorepo](standalone-workspace-packages.md) — headless services (bots, workers) go in `pnpm-workspace.yaml` packages, not the artifact system.
