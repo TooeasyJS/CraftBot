@@ -72,6 +72,11 @@ db.exec(`
     reason TEXT,
     createdAt INTEGER NOT NULL DEFAULT (strftime('%s','now'))
   );
+
+  CREATE TABLE IF NOT EXISTS bot_meta (
+    key TEXT PRIMARY KEY,
+    value TEXT
+  );
 `);
 
 // ---------------------------------------------------------------------------
@@ -199,6 +204,22 @@ export function addModLog(guildId, action, moderatorId, targetId, reason) {
   db.prepare(
     "INSERT INTO mod_log (guildId, action, moderatorId, targetId, reason) VALUES (?, ?, ?, ?, ?)"
   ).run(guildId, action, moderatorId ?? null, targetId ?? null, reason ?? null);
+}
+
+// ---------------------------------------------------------------------------
+// Metadados globais do bot (chave/valor) — usado, por exemplo, para lembrar
+// se um aviso único (como o de limite de servidores) já foi enviado.
+// ---------------------------------------------------------------------------
+export function getBotMeta(key) {
+  const row = db.prepare("SELECT value FROM bot_meta WHERE key = ?").get(key);
+  return row ? row.value : null;
+}
+
+export function setBotMeta(key, value) {
+  db.prepare(
+    `INSERT INTO bot_meta (key, value) VALUES (@key, @value)
+     ON CONFLICT(key) DO UPDATE SET value = excluded.value`
+  ).run({ key, value: String(value) });
 }
 
 export default db;
